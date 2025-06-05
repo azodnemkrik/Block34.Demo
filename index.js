@@ -1,7 +1,11 @@
 const express = require("express")
 const app = express()
+const { seed , client } = require('./db.js')
+app.use('/api' , require('./api.js'))
 
-const init = () => {
+const init = async () => {
+    await client.connect()
+    await seed()
 
     const PORT = 3000
     app.listen(PORT , () => {
