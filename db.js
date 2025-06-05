@@ -3,6 +3,7 @@ const client = new pg.Client('postgres://localhost/vacation_agency')
 const {v4} = require('uuid')
 const uuidv4 = v4
 
+// CREATE
 const createUser = async (user) => {
     const SQL = `
         INSERT INTO users
@@ -39,6 +40,7 @@ const createVacation = async (vaycay) => {
     return response.rows[0]
 }
 
+// READ
 const fetchUsers = async () => {
     const SQL = `
         SELECT *
@@ -46,6 +48,35 @@ const fetchUsers = async () => {
     `
     const response = await client.query(SQL)
     return response.rows
+}
+
+const fetchPlaces = async () => {
+    const SQL = `
+        SELECT *
+        FROM places
+    `
+    const response = await client.query(SQL)
+    return response.rows
+}
+
+const fetchVacations = async () => {
+    const SQL = `
+        SELECT *
+        FROM vacations
+    `
+    const response = await client.query(SQL)
+    return response.rows
+}
+
+
+// UPDATE
+// DELETE
+const deleteVacation = async (id) => {
+    const SQL = `
+        DELETE FROM vacations
+        WHERE id = $1
+    `
+    const response = await client.query(SQL, [id])
 }
 
  
@@ -110,5 +141,9 @@ const seed = async () => {
 module.exports = {
     seed,
     client,
-    fetchUsers
+    fetchUsers,
+    fetchPlaces,
+    fetchVacations,
+    createVacation,
+    deleteVacation,
 }
